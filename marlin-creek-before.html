@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marlin Creek Plumbing</title>
+<!-- FICTIONAL BUSINESS for practice only. This is the "before" site: no missed-call text-back, no lead automation, no review requests, no chatbot. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F2F5F6;
+  --surface: #FFFFFF;
+  --ink: #11262E;
+  --muted: #4A626C;
+  --line: #D3DFE3;
+  --brand: #0F4C5C;
+  --on-brand: #FFFFFF;
+  --copper: #A84C19;
+  --font-display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --font-body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0B181D; --surface: #12252C; --ink: #E6EFF1; --muted: #9DB4BB; --line: #25414A;
+    --brand: #5CC0D6; --on-brand: #08191E; --copper: #F2915A;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.55; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: .005em; }
+h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); text-transform: uppercase; }
+h2 { font-size: clamp(2rem, 4.5vw, 2.8rem); text-transform: uppercase; }
+h3 { font-size: 1.5rem; }
+p { margin: 0; }
+a { color: inherit; }
+.wrap { width: 100%; max-width: 1080px; margin-inline: auto; padding-inline: 16px; }
+section { padding-block: 56px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 700 1rem var(--font-body); padding: 13px 22px; border-radius: 4px; border: 2px solid var(--brand); background: var(--brand); color: var(--on-brand); cursor: pointer; text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--brand); }
+.btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--copper); outline-offset: 2px; }
+.eyebrow { font: 600 .8rem var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* header */
+header.site { background: var(--surface); border-bottom: 1px solid var(--line); }
+header.site .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding-block: 14px; }
+.logo { font: 700 1.7rem var(--font-display); text-transform: uppercase; letter-spacing: .02em; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo i { width: 14px; height: 28px; background: var(--copper); border-radius: 7px 7px 2px 2px; display: inline-block; }
+nav { display: flex; flex-wrap: wrap; gap: 4px 20px; flex: 1 1 auto; font-weight: 600; }
+nav a { text-decoration: none; color: var(--muted); padding: 4px 0; }
+.phone { font: 700 1.3rem var(--font-display); letter-spacing: .03em; }
+
+/* hero */
+.hero { background: var(--brand); color: var(--on-brand); padding-block: 64px 72px; }
+.hero .wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; align-items: center; }
+.hero .eyebrow { color: inherit; opacity: .85; }
+.hero p.lead { font-size: 1.2rem; margin-block: 18px 26px; max-width: 34ch; }
+.hero .btn { background: var(--on-brand); color: var(--brand); border-color: var(--on-brand); }
+.hero .btn.ghost { background: transparent; color: var(--on-brand); }
+.hero-facts { display: grid; gap: 12px; list-style: none; padding: 0; margin: 0; }
+.hero-facts li { border: 1px solid color-mix(in srgb, var(--on-brand) 35%, transparent); border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column; }
+.hero-facts b { font: 700 2rem/1 var(--font-display); }
+.hero-facts span { font-size: .95rem; opacity: .9; }
+
+/* services */
+.svc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 28px; }
+.svc { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px; }
+.svc h3 { margin-bottom: 6px; }
+.svc p { color: var(--muted); font-size: .98rem; }
+.svc .from { margin-top: 12px; font-weight: 700; font-size: .95rem; color: var(--ink); }
+
+/* service area */
+.area-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; padding: 0; list-style: none; }
+.area-list li { border: 1px solid var(--line); background: var(--surface); padding: 6px 12px; border-radius: 16px; font-size: .95rem; }
+
+/* contact */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 24px; margin-top: 24px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 20px; min-width: 0; }
+.panel h3 { margin-bottom: 10px; }
+.panel p { color: var(--muted); }
+.big-phone { font: 700 2.2rem var(--font-display); letter-spacing: .03em; color: var(--ink); }
+label { display: block; font-weight: 600; font-size: .92rem; margin-bottom: 4px; }
+input[type=text], input[type=tel], input[type=email], select, textarea { width: 100%; font: 400 1rem var(--font-body); padding: 11px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--ink); }
+textarea { min-height: 90px; resize: vertical; }
+.field { margin-bottom: 14px; }
+
+footer { background: var(--ink); color: var(--bg); padding-block: 32px; font-size: .92rem; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: space-between; }
+
+@media (max-width: 760px) { .hero .wrap { grid-template-columns: 1fr; } section { padding-block: 40px; } }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="#top"><i></i>Marlin Creek Plumbing</a>
+    <nav aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#area">Service area</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <span class="phone">(555) 014-0172</span>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Family owned since 1998 &middot; Lic. CFC-DEMO-0001</p>
+        <h1>Leaks fixed. Drains cleared. Same-day.</h1>
+        <p class="lead">Three generations of plumbers serving homes across the Marlin Creek area. Call us and a real person shows up.</p>
+        <div class="btn-row">
+          <a class="btn" href="#contact">Request service</a>
+          <a class="btn ghost" href="#services">See what we fix</a>
+        </div>
+      </div>
+      <ul class="hero-facts">
+        <li><b>60 min</b><span>Average emergency arrival</span></li>
+        <li><b>24/7</b><span>Burst pipes and sewer backups</span></li>
+        <li><b>1 year</b><span>Warranty on every repair</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="wrap">
+      <p class="eyebrow">What we do</p>
+      <h2>Plumbing services</h2>
+      <div class="svc-grid">
+        <div class="svc"><h3>Drain cleaning</h3><p>Kitchen, bath and main-line clogs cleared with cable and camera inspection.</p><p class="from">From $129</p></div>
+        <div class="svc"><h3>Leak repair</h3><p>Pipe, faucet and fixture leaks found and fixed before they reach your drywall.</p><p class="from">From $149</p></div>
+        <div class="svc"><h3>Water heaters</h3><p>Tank and tankless repair, replacement and flushing. Most installs done in a day.</p><p class="from">From $189</p></div>
+        <div class="svc"><h3>Toilets and fixtures</h3><p>Running toilets, new faucets, disposals and shut-off valves.</p><p class="from">From $99</p></div>
+        <div class="svc"><h3>Repiping</h3><p>Replace old galvanized or polybutylene lines with copper or PEX.</p><p class="from">Free estimate</p></div>
+        <div class="svc"><h3>Emergency service</h3><p>Burst pipes, sewer backups and no-water calls, any hour.</p><p class="from">Call now</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="area">
+    <div class="wrap">
+      <p class="eyebrow">Where we work</p>
+      <h2>Service area</h2>
+      <p style="color:var(--muted);margin-top:10px;max-width:56ch">Based in Marlin Creek, with trucks stocked and dispatched from two locations.</p>
+      <ul class="area-list">
+        <li>Marlin Creek</li><li>Coral Bluff</li><li>Pine Harbor</li><li>Alder Point</li><li>Sandpiper Key</li><li>North Heron</li><li>Cedar Landing</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <p class="eyebrow">Get in touch</p>
+      <h2>Contact us</h2>
+      <div class="contact-grid">
+        <div class="panel">
+          <h3>Call us</h3>
+          <p class="big-phone">(555) 014-0172</p>
+          <p style="margin-top:8px">Office hours 7 AM to 7 PM daily. Emergency service around the clock.</p>
+          <p style="margin-top:8px">office@marlincreekplumbing.example</p>
+        </div>
+        <div class="panel">
+          <h3>Send a message</h3>
+          <!-- PRACTICE SPOT: this basic form is not connected to anything.
+               Adding a CRM record, instant text reply and owner alert is the "lead intake" automation. -->
+          <form action="#" method="post" onsubmit="return false;">
+            <div class="field"><label for="fName">Your name</label><input type="text" id="fName" name="name"></div>
+            <div class="field"><label for="fPhone">Phone number</label><input type="tel" id="fPhone" name="phone"></div>
+            <div class="field"><label for="fMsg">How can we help?</label><textarea id="fMsg" name="message"></textarea></div>
+            <button class="btn" type="submit" style="width:100%">Send message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Marlin Creek Plumbing &middot; (555) 014-0172</span>
+    <span>Fictional business created for demonstration. Any resemblance to a real company is coincidence.</span>
+  </div>
+</footer>
+
+</body>
+</html>
