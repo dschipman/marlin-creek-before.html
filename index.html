@@ -87,7 +87,54 @@ input[type=text], input[type=tel], input[type=email], select, textarea { width: 
 textarea { min-height: 90px; resize: vertical; }
 .field { margin-bottom: 14px; }
 
-footer { background: var(--ink); color: var(--bg); padding-block: 32px; font-size: .92rem; }
+/* form validation + confirmations */
+.field.invalid input, .field.invalid textarea, .field.invalid select { border-color: var(--copper); border-width: 2px; }
+.err { color: var(--copper); font-size: .88rem; font-weight: 600; margin-top: 4px; }
+.notice { border-left: 4px solid var(--brand); background: var(--bg); padding: 12px 14px; border-radius: 4px; margin-top: 16px; }
+.notice b { display: block; margin-bottom: 4px; }
+.notice p { color: var(--ink); }
+
+/* text-message mockup */
+.sms { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.sms .meta { font-size: .8rem; color: var(--muted); text-align: center; }
+.bubble { max-width: 85%; padding: 9px 13px; border-radius: 16px 16px 16px 4px; background: var(--brand); color: var(--on-brand); font-size: .95rem; line-height: 1.4; }
+.bubble.me { align-self: flex-end; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 16px 16px 4px 16px; }
+.typing { font-size: .85rem; color: var(--muted); font-style: italic; }
+
+/* reviews */
+.stars { display: flex; gap: 6px; margin-block: 14px; }
+.stars button { font-size: 2.2rem; line-height: 1; background: none; border: 0; cursor: pointer; color: var(--line); padding: 2px; }
+.stars button.on { color: var(--copper); }
+.stars button:focus-visible { outline: 3px solid var(--copper); outline-offset: 2px; }
+
+/* owner inbox */
+.lead-list { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 10px; }
+.lead-list li { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; background: var(--bg); font-size: .95rem; }
+.lead-list .tag { display: inline-block; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--copper); margin-right: 6px; }
+.lead-list small { color: var(--muted); display: block; }
+.small-btn { font: 600 .9rem var(--font-body); background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 4px; padding: 6px 10px; cursor: pointer; margin-top: 12px; }
+
+/* owner alert toast */
+.toasts { position: fixed; left: 16px; bottom: 16px; display: grid; gap: 8px; z-index: 60; max-width: min(340px, calc(100vw - 32px)); }
+.toast { background: var(--ink); color: var(--bg); border-left: 4px solid var(--copper); padding: 10px 14px; border-radius: 6px; font-size: .92rem; box-shadow: 0 6px 20px rgb(0 0 0 / .25); }
+.toast b { display: block; }
+
+/* chatbot */
+.chat-toggle { position: fixed; right: 16px; bottom: 16px; z-index: 50; border-radius: 999px; box-shadow: 0 6px 20px rgb(0 0 0 / .25); }
+.chat { position: fixed; right: 16px; bottom: 80px; z-index: 50; width: min(360px, calc(100vw - 32px)); height: min(480px, calc(100vh - 120px)); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 40px rgb(0 0 0 / .3); display: flex; flex-direction: column; overflow: hidden; }
+.chat[hidden] { display: none; }
+.chat-head { background: var(--brand); color: var(--on-brand); padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
+.chat-head b { font: 700 1.3rem var(--font-display); text-transform: uppercase; }
+.chat-head button { background: none; border: 0; color: inherit; font-size: 1.4rem; cursor: pointer; }
+.chat-log { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.chat-log a { color: inherit; font-weight: 700; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 8px; }
+.chips button { font: 600 .85rem var(--font-body); border: 1px solid var(--brand); color: var(--brand); background: transparent; border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.chat form { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); }
+.chat form input { flex: 1; min-width: 0; }
+.chat form .btn { padding: 10px 14px; }
+
+footer { background: var(--ink); color: var(--bg); padding-block: 32px; padding-bottom: 88px; font-size: .92rem; }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: space-between; }
 
 @media (max-width: 760px) { .hero .wrap { grid-template-columns: 1fr; } section { padding-block: 40px; } }
@@ -101,6 +148,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: s
     <nav aria-label="Main">
       <a href="#services">Services</a>
       <a href="#area">Service area</a>
+      <a href="#review">Reviews</a>
       <a href="#contact">Contact</a>
     </nav>
     <span class="phone">(555) 014-0172</span>
@@ -154,6 +202,17 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: s
     </div>
   </section>
 
+  <!-- REVIEW REQUEST: 4-5 stars go to the public review page, 1-3 stars come to the owner privately. -->
+  <section id="review" style="background:var(--surface);border-block:1px solid var(--line)">
+    <div class="wrap">
+      <p class="eyebrow">Had us out recently?</p>
+      <h2>How did we do?</h2>
+      <p style="color:var(--muted);margin-top:10px">Tap a star to rate your last visit.</p>
+      <div class="stars" id="stars" role="group" aria-label="Rate your visit"></div>
+      <div id="reviewResult"></div>
+    </div>
+  </section>
+
   <section id="contact">
     <div class="wrap">
       <p class="eyebrow">Get in touch</p>
@@ -167,14 +226,43 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: s
         </div>
         <div class="panel">
           <h3>Send a message</h3>
-          <!-- PRACTICE SPOT: this basic form is not connected to anything.
-               Adding a CRM record, instant text reply and owner alert is the "lead intake" automation. -->
-          <form action="#" method="post" onsubmit="return false;">
-            <div class="field"><label for="fName">Your name</label><input type="text" id="fName" name="name"></div>
-            <div class="field"><label for="fPhone">Phone number</label><input type="tel" id="fPhone" name="phone"></div>
+          <!-- LEAD INTAKE: validates, saves a lead record (browser storage), shows the instant text reply and alerts the owner. -->
+          <form id="leadForm" novalidate>
+            <div class="field"><label for="fName">Your name *</label><input type="text" id="fName" name="name" autocomplete="name"></div>
+            <div class="field"><label for="fPhone">Phone number *</label><input type="tel" id="fPhone" name="phone" autocomplete="tel" placeholder="(555) 123-4567"></div>
+            <div class="field"><label for="fService">Service needed</label>
+              <select id="fService" name="service">
+                <option>Not sure yet</option><option>Drain cleaning</option><option>Leak repair</option><option>Water heaters</option>
+                <option>Toilets and fixtures</option><option>Repiping</option><option>Emergency service</option>
+              </select>
+            </div>
             <div class="field"><label for="fMsg">How can we help?</label><textarea id="fMsg" name="message"></textarea></div>
             <button class="btn" type="submit" style="width:100%">Send message</button>
           </form>
+          <div id="formResult"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO AREA: shows what happens on the business side. A real version would run on a server (e.g. Twilio for texts). -->
+  <section id="demo">
+    <div class="wrap">
+      <p class="eyebrow">Behind the scenes &middot; demo only</p>
+      <h2>What the owner sees</h2>
+      <div class="contact-grid">
+        <div class="panel">
+          <h3>Missed-call text-back</h3>
+          <p>When nobody can answer, the caller gets a text within seconds so they don't call the next plumber.</p>
+          <div class="field" style="margin-top:14px"><label for="mcPhone">Caller's number</label><input type="tel" id="mcPhone" value="(555) 010-2233"></div>
+          <button class="btn" id="mcBtn" type="button">Simulate a missed call</button>
+          <div id="mcResult"></div>
+        </div>
+        <div class="panel">
+          <h3>Lead inbox</h3>
+          <p>Every form, missed call and low rating lands here. Saved in this browser only.</p>
+          <ul class="lead-list" id="leadList"></ul>
+          <button class="small-btn" id="clearLeads" type="button">Clear inbox</button>
         </div>
       </div>
     </div>
@@ -188,6 +276,267 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: s
     <span>Fictional business created for demonstration. Any resemblance to a real company is coincidence.</span>
   </div>
 </footer>
+
+<!-- CHATBOT -->
+<button class="btn chat-toggle" id="chatToggle" type="button" aria-expanded="false" aria-controls="chat">Chat with us</button>
+<div class="chat" id="chat" role="dialog" aria-label="Chat with Marlin Creek Plumbing" hidden>
+  <div class="chat-head"><b>Marlin Creek Helper</b><button type="button" id="chatClose" aria-label="Close chat">&times;</button></div>
+  <div class="chat-log" id="chatLog" aria-live="polite"></div>
+  <div class="chips" id="chips"></div>
+  <form id="chatForm"><input type="text" id="chatInput" placeholder="Ask a question..." aria-label="Your message" autocomplete="off"><button class="btn" type="submit">Send</button></form>
+</div>
+
+<!-- Owner alerts pop up here -->
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const BUSINESS_PHONE = '(555) 014-0172';
+
+// ---------- shared helpers ----------
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;   // textContent keeps user input from being run as HTML
+  return e;
+}
+function timeNow() { return new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); }
+function firstName(name) { return name.trim().split(/\s+/)[0]; }
+function digits(s) { return s.replace(/\D/g, ''); }
+
+// Owner alert: a pop-up in the corner standing in for a text/email to the owner
+function ownerAlert(title, body) {
+  const t = el('div', 'toast');
+  t.append(el('b', null, '🔔 Owner alert: ' + title), el('span', null, body));
+  $('toasts').append(t);
+  setTimeout(() => t.remove(), 7000);
+}
+
+// Text message mockup: shows the bubbles one by one with a short "typing" delay
+function showSms(container, toNumber, messages) {
+  const box = el('div', 'sms');
+  box.append(el('div', 'meta', 'Text to ' + toNumber + ' · ' + timeNow()));
+  container.append(box);
+  let delay = 0;
+  messages.forEach((m) => {
+    delay += 900;
+    const typing = el('div', 'typing', 'Sending...');
+    setTimeout(() => box.append(typing), delay - 800);
+    setTimeout(() => { typing.remove(); box.append(el('div', 'bubble' + (m.me ? ' me' : ''), m.text)); }, delay);
+  });
+}
+
+// ---------- lead inbox (saved in browser storage) ----------
+const LEADS_KEY = 'mcp-leads';
+function loadLeads() { try { return JSON.parse(localStorage.getItem(LEADS_KEY)) || []; } catch { return []; } }
+function saveLeads(list) { try { localStorage.setItem(LEADS_KEY, JSON.stringify(list)); } catch {} }
+let leads = loadLeads();
+
+function addLead(lead) {
+  leads.unshift({ ...lead, time: new Date().toLocaleString() });
+  saveLeads(leads);
+  renderLeads();
+}
+function renderLeads() {
+  const list = $('leadList');
+  list.replaceChildren();
+  if (!leads.length) { list.append(el('li', null, 'No leads yet. Try the form, a missed call or a low rating.')); return; }
+  leads.forEach((l) => {
+    const li = el('li');
+    li.append(el('span', 'tag', l.source), el('b', null, l.name + ' · ' + l.phone));
+    if (l.detail) li.append(el('small', null, l.detail));
+    li.append(el('small', null, l.time));
+    list.append(li);
+  });
+}
+$('clearLeads').addEventListener('click', () => { leads = []; saveLeads(leads); renderLeads(); });
+renderLeads();
+
+// ---------- 1. contact form ----------
+function setError(input, msg) {
+  const field = input.closest('.field');
+  field.querySelector('.err')?.remove();
+  field.classList.toggle('invalid', !!msg);
+  if (msg) field.append(el('p', 'err', msg));
+}
+
+$('leadForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = $('fName'), phone = $('fPhone');
+  const nameErr = name.value.trim() ? '' : 'Please enter your name.';
+  const phoneErr = digits(phone.value).length >= 10 ? '' : 'Please enter a 10-digit phone number.';
+  setError(name, nameErr);
+  setError(phone, phoneErr);
+  if (nameErr || phoneErr) { (nameErr ? name : phone).focus(); return; }
+
+  const lead = {
+    source: 'Web form',
+    name: name.value.trim(),
+    phone: phone.value.trim(),
+    detail: $('fService').value + (($('fMsg').value.trim()) ? ' — "' + $('fMsg').value.trim() + '"' : ''),
+  };
+  addLead(lead);
+  ownerAlert('New web lead', lead.name + ' · ' + lead.phone + ' · ' + $('fService').value);
+
+  const result = $('formResult');
+  result.replaceChildren();
+  const notice = el('div', 'notice');
+  notice.append(el('b', null, 'Thanks, ' + firstName(lead.name) + '! Your message was sent.'),
+                el('p', null, "We've texted you a confirmation. A plumber will call you back within 15 minutes during office hours."));
+  result.append(notice);
+  showSms(result, lead.phone, [
+    { text: 'Hi ' + firstName(lead.name) + ', thanks for contacting Marlin Creek Plumbing! We got your request (' + $('fService').value.toLowerCase() + ') and will call you shortly. For emergencies call ' + BUSINESS_PHONE + '.' },
+  ]);
+  e.target.reset();
+});
+
+// ---------- 2. missed-call text-back ----------
+$('mcBtn').addEventListener('click', () => {
+  const input = $('mcPhone');
+  const number = input.value.trim();
+  if (digits(number).length < 10) { input.focus(); return; }
+  const result = $('mcResult');
+  result.replaceChildren(el('p', 'notice', '📞 Missed call from ' + number + ' at ' + timeNow() + '. Auto-reply sending...'));
+  showSms(result, number, [
+    { text: "Hi, this is Marlin Creek Plumbing. Sorry we missed your call! We're probably under a sink right now. What do you need help with? Reply here and we'll get right back to you." },
+    { me: true, text: 'My water heater is leaking' },
+    { text: "Got it, thanks. A dispatcher will call you within 10 minutes. If water is spreading, shut the cold-water valve on top of the heater." },
+  ]);
+  addLead({ source: 'Missed call', name: 'Unknown caller', phone: number, detail: 'Auto-texted. Replied: "My water heater is leaking"' });
+  ownerAlert('Missed call', number + ' was sent a text-back automatically.');
+});
+
+// ---------- 3. review request ----------
+const REVIEW_URL = '#'; // replace with the business's real Google review link
+const stars = $('stars');
+for (let i = 1; i <= 5; i++) {
+  const b = el('button', null, '★');
+  b.type = 'button';
+  b.setAttribute('aria-label', i + (i === 1 ? ' star' : ' stars'));
+  b.addEventListener('mouseenter', () => paintStars(i));
+  b.addEventListener('focus', () => paintStars(i));
+  b.addEventListener('click', () => rate(i));
+  stars.append(b);
+}
+let rating = 0;
+stars.addEventListener('mouseleave', () => paintStars(rating));
+function paintStars(n) { [...stars.children].forEach((b, idx) => b.classList.toggle('on', idx < n)); }
+
+function rate(n) {
+  rating = n;
+  paintStars(n);
+  [...stars.children].forEach((b, idx) => b.setAttribute('aria-pressed', idx < n));
+  const result = $('reviewResult');
+  result.replaceChildren();
+  if (n >= 4) {
+    // Happy customer: send them to the public review page
+    const box = el('div', 'notice');
+    box.append(el('b', null, 'Thank you! That means a lot to our family business.'),
+               el('p', null, 'Would you take 30 seconds to share that on Google? It helps neighbours find a plumber they can trust.'));
+    const link = el('a', 'btn', 'Leave a Google review');
+    link.href = REVIEW_URL;
+    link.style.marginTop = '12px';
+    box.append(link);
+    result.append(box);
+  } else {
+    // Unhappy customer: collect feedback privately so the owner can fix it
+    const form = el('form', 'notice');
+    form.noValidate = true;
+    form.append(el('b', null, "We're sorry we let you down."),
+                el('p', null, "Tell us what went wrong and the owner will personally call you to make it right."));
+    const nameF = el('div', 'field'); nameF.style.marginTop = '12px';
+    nameF.append(el('label', null, 'Your name'), Object.assign(el('input'), { type: 'text', id: 'rvName' }));
+    nameF.firstChild.htmlFor = 'rvName';
+    const phoneF = el('div', 'field');
+    phoneF.append(el('label', null, 'Phone number'), Object.assign(el('input'), { type: 'tel', id: 'rvPhone' }));
+    phoneF.firstChild.htmlFor = 'rvPhone';
+    const msgF = el('div', 'field');
+    msgF.append(el('label', null, 'What could we have done better?'), Object.assign(el('textarea'), { id: 'rvMsg' }));
+    msgF.firstChild.htmlFor = 'rvMsg';
+    const send = el('button', 'btn', 'Send to the owner'); send.type = 'submit';
+    form.append(nameF, phoneF, msgF, send);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = $('rvName').value.trim() || 'Anonymous';
+      const phone = $('rvPhone').value.trim() || 'no number given';
+      addLead({ source: n + '★ review', name, phone, detail: $('rvMsg').value.trim() || '(no comment)' });
+      ownerAlert(n + '-star feedback', name + ' · ' + phone + '. Call them back today.');
+      result.replaceChildren(el('p', 'notice', 'Thank you. The owner has your feedback and will be in touch.'));
+    });
+    result.append(form);
+    $('rvMsg').focus();
+  }
+}
+
+// ---------- 4. chatbot ----------
+const TOWNS = ['Marlin Creek', 'Coral Bluff', 'Pine Harbor', 'Alder Point', 'Sandpiper Key', 'North Heron', 'Cedar Landing'];
+const PRICES = {
+  drain: 'Drain cleaning starts at $129, including a camera check if needed.',
+  leak: 'Leak repair starts at $149.',
+  heater: 'Water heater repair starts at $189. Most replacements are done in a day.',
+  toilet: 'Toilet and fixture work starts at $99.',
+  faucet: 'Toilet and fixture work, including faucets, starts at $99.',
+  repip: 'Repiping is quoted for free after a quick look at your home.',
+};
+const BOOK = 'You can <a href="#contact">fill in the contact form</a> and we\'ll call you back within 15 minutes, or call ' + BUSINESS_PHONE + '.';
+
+function botAnswer(q) {
+  const t = q.toLowerCase();
+  if (/emergenc|burst|flood|sewer|backup|no water|urgent/.test(t))
+    return 'For emergencies call ' + BUSINESS_PHONE + ' now, any hour. Average arrival is 60 minutes. If water is spreading, shut off your main valve.';
+  for (const key in PRICES) if (t.includes(key)) return PRICES[key] + ' ' + BOOK;
+  if (/price|cost|how much|charge|fee|rate/.test(t))
+    return 'Starting prices: drains $129, leaks $149, water heaters $189, toilets and fixtures $99. Repiping is a free estimate. Which job do you have?';
+  const town = TOWNS.find((x) => t.includes(x.toLowerCase()));
+  if (town) return 'Yes, we serve ' + town + '! ' + BOOK;
+  if (/area|serve|where|location|town|near/.test(t))
+    return 'We cover ' + TOWNS.join(', ') + '. Which town are you in?';
+  if (/hour|open|close|when|weekend|sunday|saturday/.test(t))
+    return 'The office is open 7 AM to 7 PM every day, and emergency service runs 24/7.';
+  if (/book|appoint|schedule|visit|come out|quote|estimate/.test(t)) return BOOK;
+  if (/warrant|guarant/.test(t)) return 'Every repair comes with a 1-year warranty.';
+  if (/licen|insur/.test(t)) return "We're licensed (Lic. CFC-DEMO-0001) and family owned since 1998.";
+  if (/^(hi|hey|hello)\b/.test(t)) return 'Hi there! Ask me about prices, hours, our service area or booking a visit.';
+  return "I'm not sure about that one. A real person can help: call " + BUSINESS_PHONE + ' or ' + BOOK.charAt(0).toLowerCase() + BOOK.slice(1);
+}
+
+function chatSay(text, fromUser) {
+  const b = el('div', 'bubble' + (fromUser ? ' me' : ''));
+  if (fromUser) b.textContent = text; else b.innerHTML = text;  // bot replies are our own fixed text
+  $('chatLog').append(b);
+  $('chatLog').scrollTop = $('chatLog').scrollHeight;
+}
+function ask(q) {
+  chatSay(q, true);
+  setTimeout(() => chatSay(botAnswer(q)), 500);
+}
+
+['Prices', 'Hours', 'Service area', 'Emergency', 'Book a visit'].forEach((c) => {
+  const b = el('button', null, c); b.type = 'button';
+  b.addEventListener('click', () => ask(c));
+  $('chips').append(b);
+});
+
+function setChat(open) {
+  $('chat').hidden = !open;
+  $('chatToggle').setAttribute('aria-expanded', open);
+  $('chatToggle').textContent = open ? 'Close chat' : 'Chat with us';
+  if (open) {
+    if (!$('chatLog').children.length) chatSay("Hi! I'm the Marlin Creek helper. Ask me about prices, hours, where we work, or tap a button below.");
+    $('chatInput').focus();
+  }
+}
+$('chatToggle').addEventListener('click', () => setChat($('chat').hidden));
+$('chatClose').addEventListener('click', () => setChat(false));
+$('chatLog').addEventListener('click', (e) => { if (e.target.closest('a')) setChat(false); });
+$('chatForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const q = $('chatInput').value.trim();
+  if (!q) return;
+  $('chatInput').value = '';
+  ask(q);
+});
+</script>
 
 </body>
 </html>
